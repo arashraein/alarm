@@ -18,17 +18,12 @@ class NotificationService {
 
   Future<void> init() async {
     await _configureLocalTimeZone();
-    await requestPermissions();
 
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
 
     const DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
-    );
+        DarwinInitializationSettings();
 
     const InitializationSettings initializationSettings =
         InitializationSettings(
@@ -82,7 +77,11 @@ class NotificationService {
     );
 
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-        DarwinNotificationDetails(sound: 'ebi.aiff');
+        DarwinNotificationDetails(
+            sound: 'ebi.aiff',
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true);
 
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
