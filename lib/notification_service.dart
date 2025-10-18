@@ -82,7 +82,7 @@ class NotificationService {
     );
 
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
-        DarwinNotificationDetails(sound: 'slow_spring_board.aiff');
+        DarwinNotificationDetails(sound: 'ebi.aiff');
 
     const NotificationDetails platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics,
