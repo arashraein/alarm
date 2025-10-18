@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'notification_service.dart';
@@ -34,24 +34,55 @@ class _HomePageState extends State<HomePage> {
 
   void _updateCurrentTime() {
     setState(() {
-      _currentTime = _formatDateTime(DateTime.now());
+      _currentTime = DateFormat('hh:mm:ss a').format(DateTime.now());
     });
   }
 
-  String _formatDateTime(DateTime dateTime) =>
-      DateFormat('hh:mm:ss a').format(dateTime);
+  Future<void> _setAlarm(TimeOfDay time) async {
+    setState(() {
+      _selectedTime = time;
+    });
+    _scheduleAlarm();
+  }
 
-  Future<void> _setAlarm() async {
-    final TimeOfDay? picked = await showTimePicker(
+  void _showTimePicker() {
+    showCupertinoModalPopup(
       context: context,
-      initialTime: _selectedTime ?? TimeOfDay.now(),
+      builder: (BuildContext context) {
+        TimeOfDay tempTime = _selectedTime ?? TimeOfDay.now();
+        return Container(
+          color: CupertinoColors.systemBackground.resolveFrom(context),
+          height: 250,
+          child: Column(
+            children: [
+              Expanded(
+                child: CupertinoTimerPicker(
+                  mode: CupertinoTimerPickerMode.hm,
+                  initialTimerDuration: Duration(
+                    hours: tempTime.hour,
+                    minutes: tempTime.minute,
+                  ),
+                  onTimerDurationChanged: (Duration newDuration) {
+                    tempTime = TimeOfDay(
+                      hour: newDuration.inHours,
+                      minute: newDuration.inMinutes % 60,
+                    );
+                  },
+                ),
+              ),
+              ShadButton(
+                onPressed: () {
+                  CupertinoApp.router().of.pop();
+                  _setAlarm(tempTime);
+                },
+                child: const Text('Done'),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
     );
-    if (picked != null) {
-      setState(() {
-        _selectedTime = picked;
-      });
-      _scheduleAlarm();
-    }
   }
 
   void _scheduleAlarm() {
@@ -80,10 +111,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final ShadTextTheme textTheme = ShadTheme.of(context).textTheme;
+    final h4Style = textTheme.h4;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter Alarm'),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -100,11 +129,11 @@ class _HomePageState extends State<HomePage> {
                     _selectedTime != null
                         ? 'Alarm set for ${_selectedTime!.format(context)}'
                         : 'No alarm set',
-                    style: textTheme.h4,
+                    style: h4Style,
                   ),
                   const SizedBox(height: 20),
                   ShadButton(
-                    onPressed: _setAlarm,
+                    onPressed: _showTimePicker,
                     child: const Text('Set Alarm'),
                   ),
                   const SizedBox(height: 10),
