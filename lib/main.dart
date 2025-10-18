@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'alarm_page.dart';
+import 'const.dart';
 import 'home_page.dart';
 import 'notification_service.dart';
 
@@ -24,10 +26,23 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.dark,
           colorScheme: const ShadSlateColorScheme.dark(),
         ),
-        appBuilder: (BuildContext context) => CupertinoApp(
-          navigatorKey: navigatorKey,
+        appBuilder: (context) => CupertinoApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Alarm',
+          navigatorKey: navigatorKey,
+          theme: CupertinoTheme.of(context),
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en', ''),
+          ],
+          builder: (context, child) {
+            cnTextTheme = ShadTheme.of(context).textTheme;
+
+            return ShadAppBuilder(child: child!);
+          },
           home: const HomePage(),
           routes: <String, WidgetBuilder>{
             '/alarm': (BuildContext context) => const AlarmPage(),

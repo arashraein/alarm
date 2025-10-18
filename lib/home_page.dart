@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
+import 'const.dart';
 import 'notification_service.dart';
 
 class HomePage extends StatefulWidget {
@@ -72,7 +73,7 @@ class _HomePageState extends State<HomePage> {
               ),
               ShadButton(
                 onPressed: () {
-                  CupertinoApp.router().of.pop();
+                  Navigator.of(context).pop();
                   _setAlarm(tempTime);
                 },
                 child: const Text('Done'),
@@ -109,44 +110,52 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final ShadTextTheme textTheme = ShadTheme.of(context).textTheme;
-    final h4Style = textTheme.h4;
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              _currentTime,
-              style: ShadTheme.of(context).textTheme.h3,
-            ),
-            const SizedBox(height: 40),
-            ShadCard(
-              child: Column(
-                children: [
-                  Text(
-                    _selectedTime != null
-                        ? 'Alarm set for ${_selectedTime!.format(context)}'
-                        : 'No alarm set',
-                    style: h4Style,
-                  ),
-                  const SizedBox(height: 20),
-                  ShadButton(
-                    onPressed: _showTimePicker,
-                    child: const Text('Set Alarm'),
-                  ),
-                  const SizedBox(height: 10),
-                  ShadButton(
-                    onPressed: _cancelAlarm,
-                    child: const Text('Cancel Alarm'),
-                  ),
-                ],
+  Widget build(BuildContext context) => Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                _currentTime,
+                style: cnTextTheme.h3,
               ),
-            ),
-          ],
+              const SizedBox(height: 40),
+              ShadCard(
+                child: Column(
+                  children: [
+                    Text(
+                      _selectedTime != null
+                          ? 'Alarm set for ${_selectedTime!.format(context)}'
+                          : 'No alarm set',
+                      style: cnTextTheme.h4,
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ShadButton(
+                            onPressed: _showTimePicker,
+                            child: const Text(
+                              'Set Alarm',
+                            ),
+                          ),
+                          SizedBox(
+                            width: 4,
+                          ),
+                          ShadButton.destructive(
+                            onPressed: _cancelAlarm,
+                            child: const Text('Cancel Alarm'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+      );
 }
