@@ -1,4 +1,4 @@
-# flutter_local_notifications_example
+# alarm
 
 Demonstrates how to use the flutter_local_notifications plugin.
 

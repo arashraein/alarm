@@ -1,4 +1,4 @@
-package com.dexterous.flutter_local_notifications_example
+package com.dexterous.alarm
 
 import android.content.ContentResolver
 import android.content.Context
@@ -12,7 +12,7 @@ import java.util.*
 class MainActivity: FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dexterx.dev/flutter_local_notifications_example").setMethodCallHandler { call, result ->
+        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "dexterx.dev/alarm").setMethodCallHandler { call, result ->
             if ("drawableToUri" == call.method) {
                 val resourceId = this@MainActivity.resources.getIdentifier(call.arguments as String, "drawable", this@MainActivity.packageName)
                 result.success(resourceToUriString(this@MainActivity.applicationContext, resourceId))

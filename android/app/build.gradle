@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 }
 
 android {
-    namespace 'com.dexterous.flutter_local_notifications_example'
+    namespace 'com.dexterous.alarm'
     compileSdk 35
     ndkVersion = flutter.ndkVersion
 
@@ -42,7 +42,7 @@ android {
 
     defaultConfig {
         multiDexEnabled true
-        applicationId "com.dexterous.flutter_local_notifications_example"
+        applicationId "com.dexterous.alarm"
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion 35
         versionCode flutterVersionCode.toInteger()

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(runner LANGUAGES CXX)
 
-set(BINARY_NAME "flutter_local_notifications_example")
+set(BINARY_NAME "alarm")
 set(APPLICATION_ID "com.dexterous.flutter_local_notifications")
 
 cmake_policy(SET CMP0063 NEW)

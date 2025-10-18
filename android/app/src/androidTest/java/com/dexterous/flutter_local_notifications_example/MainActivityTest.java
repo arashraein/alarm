@@ -1,4 +1,4 @@
-package com.dexterous.flutter_local_notifications_example;
+package com.dexterous.alarm;
 
 import androidx.test.rule.ActivityTestRule;
 import org.junit.Rule;
