@@ -12,6 +12,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService().requestPermissions();
   await NotificationService().init();
   runApp(const MyApp());
 }

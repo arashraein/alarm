@@ -139,8 +139,8 @@ class _HomePageState extends State<HomePage> {
                             onPressed: _showTimePicker,
                             child: const Text('Set Alarm'),
                           ),
-                          const SizedBox(height: 10),
-                          ShadButton(
+                          const SizedBox(width: 4),
+                          ShadButton.destructive(
                             onPressed: _cancelAlarm,
                             child: const Text('Cancel Alarm'),
                           ),
