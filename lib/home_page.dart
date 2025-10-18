@@ -1,8 +1,8 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'notification_service.dart';
 
@@ -15,36 +15,53 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TimeOfDay? _selectedTime;
+  late final Timer _timer;
   String _currentTime = '';
 
   @override
   void initState() {
     super.initState();
-    _currentTime = _formatDateTime(DateTime.now());
+    _timer = Timer.periodic(
+        const Duration(seconds: 1), (Timer timer) => _updateCurrentTime());
+    _updateCurrentTime();
   }
 
-
-  String _formatDateTime(DateTime dateTime) {
-    return DateFormat('hh:mm a').format(dateTime);
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
-  Future<void> _selectTime() async {
+  void _updateCurrentTime() {
+    setState(() {
+      _currentTime = _formatDateTime(DateTime.now());
+    });
+  }
+
+  String _formatDateTime(DateTime dateTime) =>
+      DateFormat('hh:mm:ss a').format(dateTime);
+
+  Future<void> _setAlarm() async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: _selectedTime ?? TimeOfDay.now(),
     );
-    if (picked != null && picked != _selectedTime) {
+    if (picked != null) {
       setState(() {
         _selectedTime = picked;
       });
+      _scheduleAlarm();
     }
   }
 
-  void _setAlarm() {
+  void _scheduleAlarm() {
     if (_selectedTime != null) {
       final DateTime now = DateTime.now();
-      final DateTime scheduledDate = DateTime(now.year, now.month, now.day,
+      DateTime scheduledDate = DateTime(now.year, now.month, now.day,
           _selectedTime!.hour, _selectedTime!.minute);
+      if (scheduledDate.isBefore(now)) {
+        scheduledDate = scheduledDate.add(const Duration(days: 1));
+      }
       NotificationService().scheduleAlarm(
         scheduledDate,
         'Alarm',
@@ -55,66 +72,52 @@ class _HomePageState extends State<HomePage> {
 
   void _cancelAlarm() {
     NotificationService().cancelAllNotifications();
+    setState(() {
+      _selectedTime = null;
+    });
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: const Text('Flutter Alarm'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                _currentTime,
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              const SizedBox(height: 40),
-              Card(
-                elevation: 4,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      Text(
-                        _selectedTime != null
-                            ? 'Alarm set for ${_selectedTime!.format(context)}'
-                            : 'No alarm set',
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                      const SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          FilledButton.icon(
-                            onPressed: _selectTime,
-                            icon: const Icon(Icons.alarm_add),
-                            label: const Text('Select Time'),
-                          ),
-                          const SizedBox(width: 10),
-                          FilledButton.icon(
-                            onPressed: _setAlarm,
-                            icon: const Icon(Icons.alarm_on),
-                            label: const Text('Set Alarm'),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      FilledButton.icon(
-                        onPressed: _cancelAlarm,
-                        icon: const Icon(Icons.alarm_off),
-                        label: const Text('Cancel Alarm'),
-                        style: FilledButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
-                      ),
-                    ],
+  Widget build(BuildContext context) {
+    final ShadTextTheme textTheme = ShadTheme.of(context).textTheme;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Flutter Alarm'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              _currentTime,
+              style: ShadTheme.of(context).textTheme.h3,
+            ),
+            const SizedBox(height: 40),
+            ShadCard(
+              child: Column(
+                children: [
+                  Text(
+                    _selectedTime != null
+                        ? 'Alarm set for ${_selectedTime!.format(context)}'
+                        : 'No alarm set',
+                    style: textTheme.h4,
                   ),
-                ),
+                  const SizedBox(height: 20),
+                  ShadButton(
+                    onPressed: _setAlarm,
+                    child: const Text('Set Alarm'),
+                  ),
+                  const SizedBox(height: 10),
+                  ShadButton(
+                    onPressed: _cancelAlarm,
+                    child: const Text('Cancel Alarm'),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 }

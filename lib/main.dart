@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import 'alarm_page.dart';
 import 'home_page.dart';
@@ -15,23 +15,27 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        navigatorKey: navigatorKey,
-        title: 'Flutter Alarm',
-        theme: ThemeData(
-          primaryColor: const Color(0xFF8AB4F8),
-          scaffoldBackgroundColor: const Color(0xFFF8F9FA),
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue).copyWith(secondary: const Color(0xFFFDD835)),
-          textTheme: GoogleFonts.latoTextTheme(
-            Theme.of(context).textTheme,
+  Widget build(BuildContext context) => ShadApp.custom(
+        themeMode: ThemeMode.light,
+        darkTheme: ShadThemeData(
+          brightness: Brightness.dark,
+          colorScheme: const ShadSlateColorScheme.dark(),
+        ),
+        appBuilder: (BuildContext context) => Directionality(
+          textDirection: TextDirection.ltr,
+          child: MaterialApp(
+            navigatorKey: navigatorKey,
+            debugShowCheckedModeBanner: false,
+            theme: Theme.of(context),
+            title: 'Flutter Alarm',
+            home: const HomePage(),
+            routes: <String, WidgetBuilder>{
+              '/alarm': (BuildContext context) => const AlarmPage(),
+            },
           ),
         ),
-        home: const HomePage(),
-        routes: <String, WidgetBuilder>{
-          '/alarm': (BuildContext context) => const AlarmPage(),
-        },
       );
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'notification_service.dart';
 
 class AlarmPage extends StatefulWidget {
@@ -28,7 +29,7 @@ class _AlarmPageState extends State<AlarmPage>
         style: TextStyle(fontSize: 24),
       ),
     ).opacity;
-    _scaleAnimation = Tween<double>(begin: 0.9, end: 1.0).animate(
+    _scaleAnimation = Tween<double>(begin: 0.9, end: 1).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.easeInOut,
@@ -52,26 +53,21 @@ class _AlarmPageState extends State<AlarmPage>
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FadeTransition(
-                opacity: _fadeAnimation,
-                child: const Text(
-                  'Time to wake up!',
-                  style: TextStyle(fontSize: 24),
-                ),
-              ),
+                  opacity: _fadeAnimation,
+                  child: Text(
+                    'Wake Up Man',
+                    style: ShadTheme.of(context).textTheme.h3,
+                  )),
               const SizedBox(height: 40),
               ScaleTransition(
                 scale: _scaleAnimation,
-                child: FilledButton.icon(
+                child: ShadButton(
                   onPressed: () {
                     NotificationService().cancelAllNotifications();
                     // Navigate back to the home page
                     Navigator.pop(context);
                   },
-                  icon: const Icon(Icons.alarm_off),
-                  label: const Text('Stop Alarm'),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: Colors.red,
-                  ),
+                  child: const Text('Stop Alarm'),
                 ),
               ),
             ],
