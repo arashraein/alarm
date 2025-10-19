@@ -7,6 +7,7 @@ const Color primaryForegroundColor = Color(0xFFFFFFFF);
 const Color secondaryColor = Color(0xFF6C757D);
 const Color secondaryForegroundColor = Color(0xFFFFFFFF);
 const Color destructiveColor = Color(0xFFDC3545);
+const Color destructiveColor2 = Color.fromARGB(255, 220, 103, 53);
 const Color destructiveForegroundColor = Color(0xFFFFFFFF);
 const Color mutedColor = Color(0xFF6C757D);
 const Color mutedForegroundColor = Color(0xFFFFFFFF);

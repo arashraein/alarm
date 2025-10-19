@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:nfc_manager/nfc_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:nfc_manager_ndef/nfc_manager_ndef.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 import '../../data/providers/navigation_provider.dart';
+import '../shared/themes.dart';
 
 class NfcPage extends StatefulWidget {
   const NfcPage({super.key});
@@ -62,6 +65,31 @@ class _NfcPageState extends State<NfcPage> {
                 onPressed: _startNfcScanning,
                 child: const Text('Start Scanning'),
               ),
+              const SizedBox(height: 20),
+              ShadIconButton(
+                iconSize: 32,
+                width: 50,
+                height: 50,
+                gradient: const LinearGradient(colors: [
+                  destructiveColor,
+                  destructiveColor2,
+                ]),
+                shadows: [
+                  BoxShadow(
+                    color: destructiveColor.withValues(alpha: .4),
+                    spreadRadius: 4,
+                    blurRadius: 10,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+                icon: const Icon(
+                  CupertinoIcons.pause_circle,
+                ),
+                onPressed: () async {
+                  await NfcManager.instance
+                      .stopSession(errorMessageIos: 'force');
+                },
+              )
             ],
           ),
         ),
