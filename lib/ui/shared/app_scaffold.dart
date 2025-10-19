@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
-import 'home_page.dart';
-import 'navigation_provider.dart';
-import 'settings_page.dart';
+import '../../data/providers/navigation_provider.dart';
+import '../home/home_page.dart';
+import '../nfc/nfc_page.dart';
+import '../settings/settings_page.dart';
 
 class AppScaffold extends StatelessWidget {
   const AppScaffold({super.key});
@@ -20,6 +21,10 @@ class AppScaffold extends StatelessWidget {
               icon: Icon(CupertinoIcons.settings),
               label: 'Settings',
             ),
+            BottomNavigationBarItem(
+              icon: Icon(CupertinoIcons.tags),
+              label: 'NFC',
+            ),
           ],
           onTap: (index) {
             Provider.of<NavigationProvider>(context, listen: false)
@@ -35,6 +40,10 @@ class AppScaffold extends StatelessWidget {
             case 1:
               return CupertinoTabView(
                 builder: (context) => const SettingsPage(),
+              );
+            case 2:
+              return CupertinoTabView(
+                builder: (context) => const NfcPage(),
               );
             default:
               return CupertinoTabView(

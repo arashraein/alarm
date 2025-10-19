@@ -4,14 +4,14 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-import 'alarm_page.dart';
-import 'app_scaffold.dart';
+import 'api/notification_service.dart';
 import 'const.dart';
-import 'navigation_provider.dart';
-import 'notification_service.dart';
-import 'themes.dart';
+import 'data/providers/navigation_provider.dart';
+import 'ui/alarm/alarm_page.dart';
+import 'ui/shared/app_scaffold.dart';
+import 'ui/shared/themes.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

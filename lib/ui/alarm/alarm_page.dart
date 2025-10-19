@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
-import 'const.dart';
-import 'notification_service.dart';
+
+import '../../api/notification_service.dart';
+import '../../const.dart';
 
 class AlarmPage extends StatefulWidget {
   const AlarmPage({Key? key}) : super(key: key);
