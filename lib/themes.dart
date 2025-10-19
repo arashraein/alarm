@@ -56,5 +56,13 @@ CupertinoThemeData buildCupertinoTheme() => const CupertinoThemeData(
       textTheme: CupertinoTextThemeData(
         primaryColor: primaryColor,
         textStyle: TextStyle(color: foregroundColor),
+        navTitleTextStyle: TextStyle(
+          color: foregroundColor,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
+        ),
+        tabLabelTextStyle: TextStyle(
+          fontSize: 16,
+        ),
       ),
     );

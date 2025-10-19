@@ -110,50 +110,51 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) => SafeArea(
-        child: Scaffold(
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  _currentTime,
-                  style: cnTextTheme.h3,
-                ),
-                const SizedBox(height: 40),
-                ShadCard(
-                  child: Column(
-                    children: [
-                      Text(
-                        _selectedTime != null
-                            ? 'Alarm set for ${_selectedTime!.format(context)}'
-                            : 'No alarm set',
-                        style: cnTextTheme.h4,
-                      ),
-                      const SizedBox(height: 20),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            ShadButton(
-                              onPressed: _showTimePicker,
-                              child: const Text('Set Alarm'),
-                            ),
-                            const SizedBox(width: 4),
-                            ShadButton.destructive(
-                              onPressed: _cancelAlarm,
-                              child: const Text('Cancel Alarm'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+  Widget build(BuildContext context) => CupertinoPageScaffold(
+      navigationBar: const CupertinoNavigationBar(
+        middle: Text('Alarm'),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              _currentTime,
+              style: cnTextTheme.h3,
             ),
-          ),
+            const SizedBox(height: 40),
+            ShadCard(
+              child: Column(
+                children: [
+                  Text(
+                    _selectedTime != null
+                        ? 'Alarm set for ${_selectedTime!.format(context)}'
+                        : 'No alarm set',
+                    style: cnTextTheme.h4,
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ShadButton(
+                          onPressed: _showTimePicker,
+                          child: const Text('Set Alarm'),
+                        ),
+                        const SizedBox(width: 4),
+                        ShadButton.destructive(
+                          onPressed: _cancelAlarm,
+                          child: const Text('Cancel Alarm'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
 }
