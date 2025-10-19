@@ -18,30 +18,32 @@ class _AlarmPageState extends State<AlarmPage>
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ShadCard(
-                width: 350,
-                child: Center(
-                  child: Text(
-                    'Your Alarm Is Ringing',
-                    style: cnTextTheme.h4,
+  Widget build(BuildContext context) => SafeArea(
+        child: Scaffold(
+          body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                ShadCard(
+                  width: 350,
+                  child: Center(
+                    child: Text(
+                      'Your Alarm Is Ringing',
+                      style: cnTextTheme.h4,
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 40),
-              ShadButton.destructive(
-                onPressed: () {
-                  NotificationService().cancelAllNotifications();
-                  // Navigate back to the home page
-                  Navigator.pop(context);
-                },
-                child: const Text('Stop Alarm'),
-              ),
-            ],
+                const SizedBox(height: 40),
+                ShadButton.destructive(
+                  onPressed: () {
+                    NotificationService().cancelAllNotifications();
+                    // Navigate back to the home page
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Stop Alarm'),
+                ),
+              ],
+            ),
           ),
         ),
       );
