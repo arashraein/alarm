@@ -26,10 +26,10 @@ dependencies:
 dev_dependencies:
   flutter_driver:
     sdk: flutter
-  flutter_test:
-    sdk: flutter
-  integration_test:
-    sdk: flutter
+  # flutter_test:
+  #   sdk: flutter
+  # integration_test:
+  #   sdk: flutter
   msix: ^3.16.9
 
 flutter:
