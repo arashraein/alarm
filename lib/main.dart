@@ -1,20 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 
-import 'alarm_page.dart';
+import 'api/notification_service.dart';
 import 'const.dart';
-import 'home_page.dart';
-import 'notification_service.dart';
+import 'data/providers/navigation_provider.dart';
+import 'ui/alarm/alarm_page.dart';
+import 'ui/shared/app_scaffold.dart';
+import 'ui/shared/themes.dart';
 
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().requestPermissions();
   await NotificationService().init();
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => NavigationProvider(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -22,15 +30,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ShadApp.custom(
+        theme: buildShadTheme(),
+        darkTheme: buildShadTheme(),
         themeMode: ThemeMode.light,
-        darkTheme: ShadThemeData(
-          brightness: Brightness.dark,
-          colorScheme: const ShadSlateColorScheme.dark(),
-        ),
         appBuilder: (context) => CupertinoApp(
           debugShowCheckedModeBanner: false,
           navigatorKey: navigatorKey,
-          theme: CupertinoTheme.of(context),
+          theme: buildCupertinoTheme(),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
@@ -44,7 +50,7 @@ class MyApp extends StatelessWidget {
 
             return ShadAppBuilder(child: child!);
           },
-          home: const HomePage(),
+          home: const AppScaffold(),
           routes: <String, WidgetBuilder>{
             '/alarm': (BuildContext context) => const AlarmPage(),
           },

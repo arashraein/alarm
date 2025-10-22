@@ -4,7 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-import 'main.dart';
+import '../const.dart';
 
 class NotificationService {
   factory NotificationService() => _notificationService;
